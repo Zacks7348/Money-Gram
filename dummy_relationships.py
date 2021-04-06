@@ -7,7 +7,7 @@ VALUES = "\n\t('{id1}', '{id2}', '{action_id}', {status_id}),"
 
 OUTPUT_FILE = 'dummy_relationships.sql'
 
-ACCOUNTS_FILE = 'accounts.csv'
+ACCOUNTS_FILE = 'dummy_accounts.csv'
 
 ACCOUNT_ROWS = pd.read_csv(ACCOUNTS_FILE)
 

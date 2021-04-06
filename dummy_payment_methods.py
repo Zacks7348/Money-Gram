@@ -7,7 +7,7 @@ VALUES = "\n\t({card_num}, '{name}', '{id}', '{exp_date}', '{cvc}'),"
 
 OUTPUT_FILE = 'dummy_payment_methods.sql'
 
-ACCOUNTS_FILE = 'accounts.csv'
+ACCOUNTS_FILE = 'dummy_accounts.csv'
 
 ACCOUNT_ROWS = pd.read_csv(ACCOUNTS_FILE)
 
