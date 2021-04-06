@@ -8,8 +8,7 @@ router.post('/', async (req, res, next) => {
 
     const { username, password } = req.body;
 
-    const response = await pool.query("SELECT account_ID, username, password FROM moneygram_account WHERE username = ($1)", [username]);
-
+    let response = await pool.query("SELECT account_ID, username, password FROM moneygram_account WHERE username = ($1) OR email = ($1)", [username]);
 
     let user = {
         user_id: '',

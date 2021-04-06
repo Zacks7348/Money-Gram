@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import Cards from "react-credit-cards";
+import { useHistory } from "react-router-dom";
 
 // Material UI Imports
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => (creditCardStyle(theme)));
 const CreditCard = () => {
 
     const classes = useStyles();
+    const history = useHistory();
 
     const [data, setData] = useState({
         cvc: "",
@@ -85,7 +87,7 @@ const CreditCard = () => {
         } else {
 
             try {
-                return await axios.post(`http://localhost:4000/payment`, {
+                const response =  await axios.post(`http://localhost:4000/payment`, {
                     card_number: data.number, 
                     name_on_card: data.name, 
                     cvc: data.cvc,
@@ -94,6 +96,12 @@ const CreditCard = () => {
                 }).catch(error => { 
                     console.log("Error fetching data");
                 });
+
+                if(response.data.status === 'success'){
+                    alert("Payment added succesfully");
+                    history.push('/home');
+                }
+
             } catch (error) {
                 console.log(error);
             }

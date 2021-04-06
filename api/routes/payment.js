@@ -14,7 +14,7 @@ router.post('/', async (req, res, next) => {
 
         if (checkPaymentExists.rows.length === 0) {
 
-            const payment = await pool.query("INSERT INTO payment_method (card_number, name_on_card, exp_date, account_ID) VALUES ($1, $2, $3, $4)", [card_number, name_on_card, 0122, account_ID]);
+            const payment = await pool.query("INSERT INTO payment_method (card_number, cvc,  name_on_card, exp_date, account_ID) VALUES ($1, $2, $3, $4, $5)", [card_number, cvc, name_on_card, exp_date, account_ID]);
 
             if (payment) {
                 res.send(
@@ -34,7 +34,7 @@ router.post('/', async (req, res, next) => {
         } else {
 
             
-            const payment = await pool.query("UPDATE payment_method SET card_number = ($1), name_on_card= ($2), exp_date = ($3) WHERE account_ID = ($4)", [card_number, name_on_card, 0122, account_ID]);
+            const payment = await pool.query("UPDATE payment_method SET card_number = ($1), name_on_card= ($2), exp_date = ($3), cvc = ($4) WHERE account_ID = ($5)", [card_number, name_on_card, exp_date, cvc, account_ID]);
             
             if (payment) {
                 res.send(

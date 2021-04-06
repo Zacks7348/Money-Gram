@@ -14,6 +14,7 @@ import Divider from '@material-ui/core/Divider';
 import NotFound from './components/NotFoundComponent/NotFoundComponent'
 import ProtectedLogin from "./components/Protected/ProtectedLoginComponent";
 import ProtectedRoute from "./components/Protected/ProtectedRouteComponent";
+import StatementsTable from "./components/StatementsComponent/StatementsComponent";
 
 // Recoil State
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -75,6 +76,10 @@ function App() {
     history.push('/settings');
   }
 
+  const handleStatements = () => {
+    history.push('/statements');
+  }
+
 
   useEffect(() => {
     readCookie();
@@ -120,6 +125,7 @@ function App() {
                 {...props}
                 handleSignout={handleSignout}
                 handleSettings={handleSettings}
+                handleStatements={handleStatements}
               />
             </MenuBar>
             <Divider />
@@ -143,10 +149,31 @@ function App() {
                 {...props}
                 handleSignout={handleSignout}
                 handleSettings={handleSettings}
+                handleStatements={handleStatements}
               />
             </MenuBar>
             <Divider />
-              <CreditCard/>
+            <CreditCard />
+          </React.Fragment>
+        )}
+      />
+
+      <ProtectedRoute
+        exact
+        path="/statements"
+        isLoggedIn={auth}
+        component={(props) => (
+          <React.Fragment>
+            <MenuBar>
+              <NavigationDrawer
+                {...props}
+                handleSignout={handleSignout}
+                handleSettings={handleSettings}
+                handleStatements={handleStatements}
+              />
+            </MenuBar>
+            <Divider />
+            <StatementsTable/>
           </React.Fragment>
         )}
       />
