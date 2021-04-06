@@ -9,6 +9,16 @@ SELECT user1_id FROM relationship
     WHERE user2_id = ID AND status_id = STATUS;
 
 -- ******************************************************************
+-- Returns transactions where sender_id = ID or reciever_id = ID  
+-- ******************************************************************
+
+SELECT * FROM transaction
+    WHERE sender_id = ID 
+UNION
+SELECT * FROM transaction
+    WHERE reciever_id = ID 
+
+-- ******************************************************************
 -- Returns payment methods linked to ID
 -- ******************************************************************
 SELECT * FROM (moneygram_account 
