@@ -1,48 +1,46 @@
 // Module Imports
-import React, {useEffect} from "react";
-import { Switch, Route} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
 // Component Imports
+import CreditCard from './components/CreditCardComponent/CreditCardComponent';
 import NavigationDrawer from "./components/NavigationDrawerComponent/NavigationDrawer";
 import Login from "./components/LoginComponent/LoginComponent";
-import ProtectedRoute from "./components/Protected/ProtectedRouteComponent";
 import Tab from "./components/TabUiComponent/TabComponent";
 import Signup from "./components/SignupComponent/SignupComponent";
 import MenuBar from "./components/MenuBarComponent/MenuBarComponent";
 import Divider from '@material-ui/core/Divider';
 import NotFound from './components/NotFoundComponent/NotFoundComponent'
 import ProtectedLogin from "./components/Protected/ProtectedLoginComponent";
+import ProtectedRoute from "./components/Protected/ProtectedRouteComponent";
 
 // Recoil State
-import { useRecoilState, useSetRecoilState} from 'recoil';
-import { activeTabState, authState, responseUserNameState, responseUserIDState} from './Store/Atoms';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { activeTabState, authState, responseUserNameState, responseUserIDState, cardState } from './Store/Atoms';
 
 // CSS
 import './components/NotFoundComponent/NotFoundComponent.css'
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height
-  };
-}
 
 function App() {
 
   // ACTIVE STATE USE
   const [activeTab, setActiveTab] = useRecoilState(activeTabState);
+  const [card, setCardState] = useRecoilState(cardState);
   const [auth, setAuth] = useRecoilState(authState);
   const setResponseUserName = useSetRecoilState(responseUserNameState);
   const setResponseUserID = useSetRecoilState(responseUserIDState);
+
+  let history = useHistory();
+
 
   const readCookie = () => {
     const isAuth = Cookies.get('auth');
     const user_id = Cookies.get('user_id');
     const username = Cookies.get('user_name');
 
-    if(isAuth){
+    if (isAuth) {
       setResponseUserID(user_id);
       setResponseUserName(username)
       setAuth(isAuth);
@@ -73,9 +71,14 @@ function App() {
     setAuth(false);
   }
 
+  const handleSettings = () => {
+    history.push('/settings');
+  }
+
+
   useEffect(() => {
     readCookie();
-  },[])
+  }, [])
 
   return (
     <Switch>
@@ -100,7 +103,7 @@ function App() {
         path="/signup"
         component={(props) => (
           <React.Fragment>
-            <MenuBar/>
+            <MenuBar />
             <Signup />
           </React.Fragment>
         )}
@@ -115,7 +118,8 @@ function App() {
             <MenuBar>
               <NavigationDrawer
                 {...props}
-                handleSignout = {handleSignout}
+                handleSignout={handleSignout}
+                handleSettings={handleSettings}
               />
             </MenuBar>
             <Divider />
@@ -128,10 +132,29 @@ function App() {
         )}
       />
 
+      <ProtectedRoute
+        exact
+        path="/settings"
+        isLoggedIn={auth}
+        component={(props) => (
+          <React.Fragment>
+            <MenuBar>
+              <NavigationDrawer
+                {...props}
+                handleSignout={handleSignout}
+                handleSettings={handleSettings}
+              />
+            </MenuBar>
+            <Divider />
+              <CreditCard/>
+          </React.Fragment>
+        )}
+      />
+
       <Route
         path="*"
         component={() => (
-          <NotFound/>
+          <NotFound />
         )}
       />
 

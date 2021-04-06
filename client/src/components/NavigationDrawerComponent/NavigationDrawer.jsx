@@ -9,14 +9,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import SearchIcon from '@material-ui/icons/Search';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import OpacityOutlinedIcon from '@material-ui/icons/OpacityOutlined';
 import ReceiptOutlinedIcon from '@material-ui/icons/ReceiptOutlined';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
-import ContactSupportOutlinedIcon from '@material-ui/icons/ContactSupportOutlined';
 import PowerSettingsNewOutlinedIcon from '@material-ui/icons/PowerSettingsNewOutlined';
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
-
 import Profile from '../ProfileComponent/ProfileComponent';
 
 const useStyles = makeStyles({
@@ -32,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function NavigationDrawer({handleSignout}) {
+export default function NavigationDrawer({handleSignout, handleSettings}) {
     const classes = useStyles();
     const [state, setState] = React.useState({
         right: false
@@ -57,7 +53,7 @@ export default function NavigationDrawer({handleSignout}) {
             <Profile/>
 
             <List>
-                {['Search', 'Notifications', 'Incomplete', 'Statements', 'Settings', 'Help', 'Log out'].map((text, index) => {
+                {['Search','Statements', 'Settings', 'Log out'].map((text, index) => {
                     if (index === 0) {
                         return (
                             <ListItem button key={text}>
@@ -71,48 +67,21 @@ export default function NavigationDrawer({handleSignout}) {
                         return (
                             <ListItem button key={text}>
                                 {
-                                    <ListItemIcon><NotificationsActiveIcon /></ListItemIcon>
+                                    <ListItemIcon><ReceiptOutlinedIcon /></ListItemIcon>
                                 }
                                 <ListItemText primary={text} />
                             </ListItem>
                         )
                     } else if (index === 2) {
                         return (
-                            <ListItem button key={text}>
-                                {
-                                    <ListItemIcon><OpacityOutlinedIcon /></ListItemIcon>
-                                }
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    } else if (index === 3) {
-                        return (
-                            <ListItem button key={text}>
-                                {
-                                    <ListItemIcon><ReceiptOutlinedIcon /></ListItemIcon>
-                                }
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    } else if (index === 4) {
-                        return (
-                            <ListItem button key={text}>
+                            <ListItem button key={text} onClick={handleSettings}>
                                 {
                                     <ListItemIcon><SettingsOutlinedIcon /></ListItemIcon>
                                 }
                                 <ListItemText primary={text} />
                             </ListItem>
                         )
-                    } else if (index === 5) {
-                        return (
-                            <ListItem button key={text}>
-                                {
-                                    <ListItemIcon><ContactSupportOutlinedIcon /></ListItemIcon>
-                                }
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    } else {
+                    }else {
                         return (
                             <ListItem button key={text} onClick={handleSignout}>
                                 {

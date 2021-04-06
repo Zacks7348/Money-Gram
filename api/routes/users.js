@@ -6,20 +6,20 @@ const { v4: uuidv4 } = require('uuid');
 
 router.post('/', async (req, res, next) => {
   try {
-    const { username, Fname, Mname, Lname, DOB, phone, password } = req.body;
+    const { username, Fname, Mname, Lname, DOB, phone, password, email} = req.body;
     const formattedPhone = phone.replace(/\D+/g, '');
     const hashedPassword = await bcrypt.hash(password, 10);
     const id = uuidv4();
     pool.connect();
-    const user = await pool.query("INSERT INTO moneygram_user (user_ID, fname,mname,lname,dob,phone,username,password) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)", [id, Fname, Mname, Lname, DOB, formattedPhone, username, hashedPassword]);
-    const account = await pool.query("INSERT INTO moneygram_account (account_ID) VALUES ($1)", [id]);
+    const user = await pool.query("INSERT INTO moneygram_account (account_ID, fname,mname,lname,dob,phone,username,password,email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)", [id, Fname, Mname, Lname, DOB, formattedPhone, username, hashedPassword, email]);
 
+    console.log(user);
     const response = {
       user_id: id,
       username: username
     }
 
-    if(user && account){
+    if(user){
       res.send(
         {
           auth: true,

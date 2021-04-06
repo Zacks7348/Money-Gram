@@ -61,9 +61,10 @@ export default function Login() {
     // username: "sequeirajonathan"
     //}
 
+    console.log(payload);
+
     if (payload) {
       const { data } = payload;
-
       Cookies.set('auth', data.auth);
       Cookies.set('user_id', data.user.user_id);
       Cookies.set('user_name', data.user.username);

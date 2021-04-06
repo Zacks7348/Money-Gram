@@ -8,9 +8,13 @@ router.post('/', async (req, res, next) => {
 
     const { username, password } = req.body;
 
-    const response = await pool.query("SELECT user_id,username,password FROM moneygram_user WHERE username = ($1)", [username]);
-    let user = {};
+    const response = await pool.query("SELECT account_ID, username, password FROM moneygram_account WHERE username = ($1)", [username]);
 
+
+    let user = {
+        user_id: '',
+        username: ''
+    };
 
     //Cant find user
     if (response.rows.length === 0) {
@@ -23,7 +27,7 @@ router.post('/', async (req, res, next) => {
         );
     } else {
         user = {
-            user_id: response.rows[0].user_id,
+            user_id: response.rows[0].account_id,
             username: response.rows[0].username
         }
     }

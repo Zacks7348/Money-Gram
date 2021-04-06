@@ -124,7 +124,8 @@ export default function SignUp() {
                 Lname: signupLastName,
                 DOB: signupDOB,
                 phone: signupPhoneNumber,
-                password: signupPassword
+                password: signupPassword,
+                email: signupEmail
             }).catch(error => { setErrors(error.response.data.error); });
         } catch (error) {
             console.log(error);

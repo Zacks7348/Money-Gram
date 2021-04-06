@@ -16,6 +16,7 @@
     "js-cookie": "^2.2.1",
     "material-ui-phone-number": "^2.2.6",
     "react": "^17.0.1",
+    "react-creditcard": "^1.1.2",
     "react-dom": "^17.0.1",
     "react-phone-number-input": "^3.1.17",
     "react-router-dom": "^5.2.0",
@@ -25,7 +26,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

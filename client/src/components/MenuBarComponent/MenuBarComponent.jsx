@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from "@material-ui/core/Grid";
 import HomeIcon from "../HomeIconComponent/HomeIconComponent";
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,7 +32,7 @@ export default function ButtonAppBar({ children }) {
             <Toolbar>
                 <Grid justify={"flex-start"} container>
                     <Grid xs={2} item>
-                        <HomeIcon/>
+                        <HomeIcon/> <Typography>Hello</Typography>
                     </Grid>
                 </Grid>
                 <Grid justify={"flex-end"} container>
