@@ -16,6 +16,7 @@
     "js-cookie": "^2.2.1",
     "material-ui-phone-number": "^2.2.6",
     "react": "^17.0.1",
+    "react-credit-cards": "^0.8.3",
     "react-creditcard": "^1.1.2",
     "react-dom": "^17.0.1",
     "react-phone-number-input": "^3.1.17",
@@ -29,7 +30,8 @@
     "start": "set HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "proxy": "https://moneygram-api.herokuapp.com"
   },
   "eslintConfig": {
     "extends": [

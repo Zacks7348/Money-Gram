@@ -8413,7 +8413,7 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-payment@^2.2.1:
+payment@^2.2.1, payment@^2.3.0:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/payment/-/payment-2.4.3.tgz#d73fecd4f89c3e45dbd40cab1860ae28749f3d42"
   integrity sha512-l6equ3jkjMXzApQIqY4WfM2Koi3MPIKg/YQu/diakBZilBM4Rkb4r9evk13EXsTXlZs6SubXD6yTZn00sJFvYA==
@@ -9453,6 +9453,13 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
+
+react-credit-cards@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/react-credit-cards/-/react-credit-cards-0.8.3.tgz#608a8ee8bf3a88857fc83023ffba1ad536ba8c7e"
+  integrity sha512-88XJErkkdDjeFevOxfWYV2dUs4ddNNXJMIgutqTlUH2pYfcaDeFv9MXNGCcJKvBv4+6GEnxbCToymNRNbEt/uw==
+  dependencies:
+    payment "^2.3.0"
 
 react-creditcard@^1.1.2:
   version "1.1.2"
