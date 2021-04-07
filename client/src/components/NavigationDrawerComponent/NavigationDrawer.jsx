@@ -14,6 +14,7 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import PowerSettingsNewOutlinedIcon from '@material-ui/icons/PowerSettingsNewOutlined';
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 import Profile from '../ProfileComponent/ProfileComponent';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles({
     list: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function NavigationDrawer({ handleSignout, handleSettings, handleStatements }) {
+export default function NavigationDrawer({ handleSignout, handlePayment, handleStatements, handleHome, handleSearch }) {
     const classes = useStyles();
     const [state, setState] = React.useState({
         right: false
@@ -53,17 +54,27 @@ export default function NavigationDrawer({ handleSignout, handleSettings, handle
             <Profile />
 
             <List>
-                {['Search', 'Statements', 'Add Paymenet Method', 'Log out'].map((text, index) => {
+                {['Home', 'Search', 'Statements', 'Add Paymenet Method', 'Log out'].map((text, index) => {
                     if (index === 0) {
                         return (
-                            <ListItem button key={text}>
+                            <ListItem button key={text} onClick={handleHome}>
+                                {
+                                    <ListItemIcon><HomeIcon /></ListItemIcon>
+                                }
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        )
+                    } else if (index === 1) {
+                        return (
+                            <ListItem button key={text} onClick={handleSearch}>
                                 {
                                     <ListItemIcon><SearchIcon /></ListItemIcon>
                                 }
                                 <ListItemText primary={text} />
                             </ListItem>
                         )
-                    } else if (index === 1) {
+                    }
+                    else if (index === 2) {
                         return (
                             <ListItem button key={text} onClick={handleStatements}>
                                 {
@@ -72,9 +83,9 @@ export default function NavigationDrawer({ handleSignout, handleSettings, handle
                                 <ListItemText primary={text} />
                             </ListItem>
                         )
-                    } else if (index === 2) {
+                    } else if (index === 3) {
                         return (
-                            <ListItem button key={text} onClick={handleSettings}>
+                            <ListItem button key={text} onClick={handlePayment}>
                                 {
                                     <ListItemIcon><PaymentIcon /></ListItemIcon>
                                 }
@@ -91,7 +102,6 @@ export default function NavigationDrawer({ handleSignout, handleSettings, handle
                             </ListItem>
                         )
                     }
-
                 })}
             </List>
         </div>

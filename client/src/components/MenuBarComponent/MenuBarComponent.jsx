@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Grid from "@material-ui/core/Grid";
 import HomeIcon from "../HomeIconComponent/HomeIconComponent";
 import { Typography } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,6 +18,13 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         flexGrow: 1,
+        color: "#61A98C",
+        margin: theme.spacing(2),
+        fontSize: "1.30rem",
+        fontFamily: ["Pacifico", "cursive"],
+        fontWight: 400,
+        lineHeight: 1.6,
+        letterSpacing: "0.0075em",
     },
     logo: {
         width: 135,
@@ -31,8 +39,13 @@ export default function ButtonAppBar({ children }) {
         <AppBar position="static" className={classes.root}>
             <Toolbar>
                 <Grid justify={"flex-start"} container>
-                    <Grid xs={2} item>
-                        <HomeIcon/> <Typography>Hello</Typography>
+                    <Grid xs={1} item>
+                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                            <HomeIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid xs={4} item>
+                        <Typography className={classes.title}>MoneyGram</Typography>
                     </Grid>
                 </Grid>
                 <Grid justify={"flex-end"} container>

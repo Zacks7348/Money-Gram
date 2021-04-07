@@ -20,25 +20,12 @@ const useStyles = makeStyles({
     },
 });
 
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export default function StatementsTable() {
     const classes = useStyles();
 
     const responseUserID = useRecoilValue(responseUserIDState);
 
-    const [data, setData] = useState({});
+    const [data, setData] = useState([{}]);
 
     useEffect(() => {
         if (!responseUserID) {
@@ -46,37 +33,42 @@ export default function StatementsTable() {
         } else {
             axios.post(`http://localhost:4000/statements`, {
                 account_ID: responseUserID
-            }).then(({data}) => {
-                setData(data);
+            }).then(({ data }) => {
+                setData(data.statements.rows);
             })
         }
-    });
+    }, [setData, responseUserID]);
+
 
 
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table} size="small" aria-label="a dense table">
                 <TableHead>
-                    <TableRow>
-                        <TableCell>Dessert (100g serving)</TableCell>
-                        <TableCell align="right">Calories</TableCell>
-                        <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                        <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                        <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                    <TableRow key={Math.random().toString(36).substr(2, 9)} >
+                        <TableCell >Transaction ID</TableCell>
+                        <TableCell align="right">Transaction Date</TableCell>
+                        <TableCell align="right">Reciever</TableCell>
+                        <TableCell align="right">Amount&nbsp;(USD)</TableCell>
+                        <TableCell align="right">Memo</TableCell>
+                        <TableCell align="right">Transaction Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell align="right">{row.calories}</TableCell>
-                            <TableCell align="right">{row.fat}</TableCell>
-                            <TableCell align="right">{row.carbs}</TableCell>
-                            <TableCell align="right">{row.protein}</TableCell>
-                        </TableRow>
-                    ))}
+                    {
+                        data.map((statement) => {
+                            return (
+                                <TableRow key={Math.random().toString(36).substr(2, 9)} >
+                                    <TableCell>{statement.transaction_id}</TableCell>
+                                    <TableCell align="right">{statement.date}</TableCell>
+                                    <TableCell align="right">{statement.reciever_username}</TableCell>
+                                    <TableCell align="right">{"$" + statement.amount}</TableCell>
+                                    <TableCell align="right">{statement.memo === null ? "N/A" : statement.memo}</TableCell>
+                                    <TableCell align="right">{statement.status_description}</TableCell>
+                                </TableRow>
+                            )
+                        })
+                    }
                 </TableBody>
             </Table>
         </TableContainer>

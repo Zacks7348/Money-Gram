@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -8,7 +8,7 @@ import { CardContent } from '@material-ui/core';
 
 
 // Recoil State
-import { useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { responseUserNameState } from '../../Store/Atoms';
 
 
@@ -33,14 +33,6 @@ export default function Profile() {
     const classes = useStyles();
     const responseUserName = useRecoilValue(responseUserNameState);
 
-    const getAccountBalance = () => {
-        
-    }
-    
-    useEffect(() => {
-
-    },)
-    
     return (
         <Card className={classes.root}>
             <CardHeader

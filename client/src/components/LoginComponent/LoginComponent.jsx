@@ -53,16 +53,6 @@ export default function Login() {
     event.preventDefault();
     const payload = await getUser();
 
-    // SCHEMA
-    // auth: true
-    // error: ""
-    // user: {
-    // user_id: "08c63ffd-33c5-40d3-8d42-766f29bb7943"
-    // username: "sequeirajonathan"
-    //}
-
-    console.log(payload);
-
     if (payload) {
       const { data } = payload;
       Cookies.set('auth', data.auth);

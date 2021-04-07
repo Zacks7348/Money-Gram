@@ -34,34 +34,34 @@ const theme = createMuiTheme({
 });
 
 
-export default function Tabs({ active_tab, selected }) {
+export default function Tabs(props) {
 
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <ButtonGroup size="large" aria-label="large outlined button group">
-                <ThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
+                <ButtonGroup size="large" aria-label="large outlined button group">
                     <Button
-                        onClick={() => { active_tab([true, false, false]) }}
-                        color={selected === "public" ? "primary" : "secondary"}
+                        onClick={() => { props.active_tab([true, false, false]) }}
+                        color={props.selected === "public" ? "primary" : "secondary"}
                         variant="contained"
                         startIcon={<PublicIcon />}
                     >PUBLIC</Button>
                     <Button
-                        onClick={() => { active_tab([false, true, false]) }}
-                        color={selected === "friends" ? "primary" : "secondary"}
+                        onClick={() => { props.active_tab([false, true, false]) }}
+                        color={props.selected === "friends" ? "primary" : "secondary"}
                         variant="contained"
                         startIcon={<PeopleOutlineIcon />}
                     >FRIENDS</Button>
                     <Button
-                        onClick={() => { active_tab([false, false, true]) }}
-                        color={selected === "profile" ? "primary" : "secondary"}
+                        onClick={() => { props.active_tab([false, false, true]) }}
+                        color={props.selected === "profile" ? "primary" : "secondary"}
                         variant="contained"
                         startIcon={<AccountCircleIcon />}
                     >PROFILE</Button>
-                </ThemeProvider>
-            </ButtonGroup>
+                </ButtonGroup>
+            </ThemeProvider>
         </div>
     );
 }

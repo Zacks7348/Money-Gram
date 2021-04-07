@@ -17,7 +17,7 @@ export const errorsState = atom({
 
 export const authState = atom({
     key: 'authState',
-    default: false,
+    default: true,
 });
 
 export const loginAttemptState = atom({

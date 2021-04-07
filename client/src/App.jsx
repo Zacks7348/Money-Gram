@@ -15,10 +15,11 @@ import NotFound from './components/NotFoundComponent/NotFoundComponent'
 import ProtectedLogin from "./components/Protected/ProtectedLoginComponent";
 import ProtectedRoute from "./components/Protected/ProtectedRouteComponent";
 import StatementsTable from "./components/StatementsComponent/StatementsComponent";
+import SearchComponent from "./components/SearchComonent/SearchComponent";
 
 // Recoil State
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { activeTabState, authState, responseUserNameState, responseUserIDState, cardState } from './Store/Atoms';
+import { activeTabState, authState, responseUserNameState, responseUserIDState} from './Store/Atoms';
 
 // CSS
 import './components/NotFoundComponent/NotFoundComponent.css'
@@ -28,7 +29,6 @@ function App() {
 
   // ACTIVE STATE USE
   const [activeTab, setActiveTab] = useRecoilState(activeTabState);
-  const [card, setCardState] = useRecoilState(cardState);
   const [auth, setAuth] = useRecoilState(authState);
   const setResponseUserName = useSetRecoilState(responseUserNameState);
   const setResponseUserID = useSetRecoilState(responseUserIDState);
@@ -45,6 +45,10 @@ function App() {
       setResponseUserID(user_id);
       setResponseUserName(username)
       setAuth(isAuth);
+    } else {
+      setResponseUserID("");
+      setResponseUserName("")
+      setAuth(false);
     }
   }
 
@@ -72,18 +76,25 @@ function App() {
     setAuth(false);
   }
 
-  const handleSettings = () => {
-    history.push('/settings');
+  const handlePayment = () => {
+    history.push('/add-payment-method');
   }
 
   const handleStatements = () => {
     history.push('/statements');
   }
 
+  const handleHome = () => {
+    history.push('/home');
+  }
+
+  const handleSearch = () => {
+    history.push('/search');
+  }
 
   useEffect(() => {
     readCookie();
-  }, [])
+  })
 
   return (
     <Switch>
@@ -123,9 +134,11 @@ function App() {
             <MenuBar>
               <NavigationDrawer
                 {...props}
+                handleHome={handleHome}
                 handleSignout={handleSignout}
-                handleSettings={handleSettings}
+                handlePayment={handlePayment}
                 handleStatements={handleStatements}
+                handleSearch={handleSearch}
               />
             </MenuBar>
             <Divider />
@@ -140,16 +153,18 @@ function App() {
 
       <ProtectedRoute
         exact
-        path="/settings"
+        path="/add-payment-method"
         isLoggedIn={auth}
         component={(props) => (
           <React.Fragment>
             <MenuBar>
               <NavigationDrawer
                 {...props}
+                handleHome={handleHome}
                 handleSignout={handleSignout}
-                handleSettings={handleSettings}
+                handlePayment={handlePayment}
                 handleStatements={handleStatements}
+                handleSearch={handleSearch}
               />
             </MenuBar>
             <Divider />
@@ -167,13 +182,37 @@ function App() {
             <MenuBar>
               <NavigationDrawer
                 {...props}
+                handleHome={handleHome}
                 handleSignout={handleSignout}
-                handleSettings={handleSettings}
+                handlePayment={handlePayment}
                 handleStatements={handleStatements}
+                handleSearch={handleSearch}
               />
             </MenuBar>
             <Divider />
-            <StatementsTable/>
+            <StatementsTable />
+          </React.Fragment>
+        )}
+      />
+
+<ProtectedRoute
+        exact
+        path="/search"
+        isLoggedIn={auth}
+        component={(props) => (
+          <React.Fragment>
+            <MenuBar>
+              <NavigationDrawer
+                {...props}
+                handleHome={handleHome}
+                handleSignout={handleSignout}
+                handlePayment={handlePayment}
+                handleStatements={handleStatements}
+                handleSearch={handleSearch}
+              />
+            </MenuBar>
+            <Divider />
+            <SearchComponent/>
           </React.Fragment>
         )}
       />
