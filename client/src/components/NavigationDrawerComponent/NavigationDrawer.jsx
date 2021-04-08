@@ -15,6 +15,7 @@ import PowerSettingsNewOutlinedIcon from '@material-ui/icons/PowerSettingsNewOut
 import MenuOutlinedIcon from '@material-ui/icons/MenuOutlined';
 import Profile from '../ProfileComponent/ProfileComponent';
 import HomeIcon from '@material-ui/icons/Home';
+import MoneyIcon from '@material-ui/icons/Money';
 
 const useStyles = makeStyles({
     list: {
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function NavigationDrawer({ handleSignout, handlePayment, handleStatements, handleHome, handleSearch }) {
+export default function NavigationDrawer({ handleSignout, handlePayment, handleStatements, handleHome, handleSearch, handleAddFunds }) {
     const classes = useStyles();
     const [state, setState] = React.useState({
         right: false
@@ -54,7 +55,7 @@ export default function NavigationDrawer({ handleSignout, handlePayment, handleS
             <Profile />
 
             <List>
-                {['Home', 'Search', 'Statements', 'Add Paymenet Method', 'Log out'].map((text, index) => {
+                {['Home', 'Search', 'Statements', 'Add Paymenet Method', 'Add Funds', 'Log out'].map((text, index) => {
                     if (index === 0) {
                         return (
                             <ListItem button key={text} onClick={handleHome}>
@@ -88,6 +89,15 @@ export default function NavigationDrawer({ handleSignout, handlePayment, handleS
                             <ListItem button key={text} onClick={handlePayment}>
                                 {
                                     <ListItemIcon><PaymentIcon /></ListItemIcon>
+                                }
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        )
+                    } else if (index === 4) {
+                        return (
+                            <ListItem button key={text} onClick={handleAddFunds}>
+                                {
+                                    <ListItemIcon><MoneyIcon /></ListItemIcon>
                                 }
                                 <ListItemText primary={text} />
                             </ListItem>

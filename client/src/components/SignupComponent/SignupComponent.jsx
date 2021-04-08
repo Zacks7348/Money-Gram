@@ -60,40 +60,8 @@ export default function SignUp() {
     const [auth, setAuth] = useRecoilState(authState);
     const setResponseUserName = useSetRecoilState(responseUserNameState);
 
-
     // Redirect
     const history = useHistory();
-
-
-    // const handleSignUp = async (event) => {
-    //     try {
-    //         event.preventDefault();
-
-    //         if (signupPassword !== signupVerifyPassword) {
-    //             setErrors("Passwords do not match");
-    //             return;
-    //         }
-    //         const { data } = await getUser();
-
-    //         if(!data){
-    //             setAuth(data.auth);
-    //             setErrors(data.error);
-    //             setResponseUserName(data.username);
-    
-    //             if (!data.error && data.auth && data.username !== '') {
-    //                 window.localStorage.setItem("auth", true);
-    //                 window.localStorage.setItem("user", `${data.username}`);
-    //             } else {
-    //                 setErrors(data.error);
-    //                 window.localStorage.setItem("auth", "false");
-    //                 window.localStorage.setItem("user", "");
-    //             }
-    //         }
- 
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     const handleSignUp = async (event) => {
         try {
@@ -199,12 +167,12 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="middleName"
-                                label="Middle Name"
-                                name="middleName"
+                                id="middleInitial"
+                                label="Middle Initial"
+                                name="middleInitial"
                                 autoComplete="mname"
                                 value={signupMiddleName}
-                                onChange={(e) => setSignupMiddleName(e.target.value)}
+                                onChange={(e) => setSignupMiddleName(e.target.value.toString().slice(0, 1))}
                             />
                         </Grid>
 

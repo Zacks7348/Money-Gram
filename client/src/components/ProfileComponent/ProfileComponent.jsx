@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
@@ -9,10 +10,13 @@ import { CardContent } from '@material-ui/core';
 
 // Recoil State
 import { useRecoilValue } from 'recoil';
-import { responseUserNameState } from '../../Store/Atoms';
+import { responseUserIDState } from '../../Store/Atoms';
+
+// Material UI components
+import { green } from '@material-ui/core/colors';
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
         minWidth: 275,
     },
@@ -22,26 +26,51 @@ const useStyles = makeStyles({
     green: {
         color: '#66BB6A',
     },
+    deepGreen: {
+        color: theme.palette.getContrastText(green[500]),
+        backgroundColor: green[500],
+      },
     large: {
         width: 80,
         height: 80,
     },
-});
+}));
 
 
 export default function Profile() {
     const classes = useStyles();
-    const responseUserName = useRecoilValue(responseUserNameState);
+    const responseUserID = useRecoilValue(responseUserIDState);
+
+    const [data, setData] = useState([{}]);
+
+    const fetchProfile = () => {
+        axios.post(`http://localhost:4000/users/profile`, {
+            account_ID: responseUserID
+        }).then(({ data }) => {
+            setData(data.user[0]);
+        })
+    }
+
+    useEffect(() => {
+        fetchProfile();
+        return () => {
+            setData({});
+        }
+    }, [])
 
     return (
         <Card className={classes.root}>
-            <CardHeader
-                avatar={<Avatar alt="Jonathan" src="https://scontent.fmia1-1.fna.fbcdn.net/v/t1.0-9/102307838_10216628556055508_6582034269021835304_n.jpg?_nc_cat=106&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=nhTKrTl21osAX9Aw2Kr&_nc_ht=scontent.fmia1-1.fna&oh=a95afcb438431c32cdbb953beb27d977&oe=608643FE" className={classes.large} />}
-                title={<Typography className={classes.title} color="textPrimary"><strong className={classes.green}>HI!</strong> {"Jonathan"}</Typography>}
-                subheader={"@" + responseUserName}
-            />
+            {data.profile_url !== null ? <CardHeader
+                avatar={<Avatar alt={data.fname} src={data.profile_ur} className={classes.large} />}
+                title={<Typography className={classes.title} color="textPrimary"><strong className={classes.green}>HI!</strong> {data.fname}</Typography>}
+                subheader={"@" + data.username}
+            /> : <CardHeader
+                avatar={<Avatar alt={data.fname} className={[classes.large, classes.deepGreen]}> {data.fname[0] + data.lname[0]} </Avatar> }
+                title={<Typography className={classes.title} color="textPrimary"><strong className={classes.green}>HI!</strong> {data.fname}</Typography>}
+                subheader={"@" + data.username}
+            />}
             <CardContent>
-                <Typography variant="h5" component="h2">$ 0.00  <Typography className={classes.pos} color="textSecondary">Avaliable Balance</Typography></Typography>
+                <Typography variant="h5" component="h2">$ {data.balance} <Typography className={classes.pos} color="textSecondary">Avaliable Balance</Typography></Typography>
             </CardContent>
         </Card>
     );

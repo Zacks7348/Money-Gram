@@ -16,13 +16,15 @@ import ProtectedLogin from "./components/Protected/ProtectedLoginComponent";
 import ProtectedRoute from "./components/Protected/ProtectedRouteComponent";
 import StatementsTable from "./components/StatementsComponent/StatementsComponent";
 import SearchComponent from "./components/SearchComonent/SearchComponent";
+import CurrencyInput from './components/CurrencyInputComponent/CurrencyInput';
 
 // Recoil State
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { activeTabState, authState, responseUserNameState, responseUserIDState} from './Store/Atoms';
+import { activeTabState, authState, responseUserNameState, responseUserIDState } from './Store/Atoms';
 
 // CSS
-import './components/NotFoundComponent/NotFoundComponent.css'
+import './components/NotFoundComponent/NotFoundComponent.css';
+import './components/CurrencyInputComponent/CurrencyInput.css';
 
 
 function App() {
@@ -55,14 +57,11 @@ function App() {
   const handleActiveTab = (tabs) => {
     let isPublic = tabs[0];
     let isFriends = tabs[1];
-    let isProfile = tabs[2];
-
-    if (isPublic && !isFriends && !isProfile) {
+    
+    if (isPublic && !isFriends) {
       setActiveTab("public");
-    } else if (!isPublic && isFriends && !isProfile) {
+    } else if (!isPublic && isFriends) {
       setActiveTab("friends");
-    } else if (!isPublic && !isFriends && isProfile) {
-      setActiveTab("profile");
     }
   };
 
@@ -91,6 +90,11 @@ function App() {
   const handleSearch = () => {
     history.push('/search');
   }
+
+  const handleAddFunds = () => {
+    history.push('/add-funds');
+  }
+
 
   useEffect(() => {
     readCookie();
@@ -139,6 +143,7 @@ function App() {
                 handlePayment={handlePayment}
                 handleStatements={handleStatements}
                 handleSearch={handleSearch}
+                handleAddFunds={handleAddFunds}
               />
             </MenuBar>
             <Divider />
@@ -165,6 +170,7 @@ function App() {
                 handlePayment={handlePayment}
                 handleStatements={handleStatements}
                 handleSearch={handleSearch}
+                handleAddFunds={handleAddFunds}
               />
             </MenuBar>
             <Divider />
@@ -187,6 +193,7 @@ function App() {
                 handlePayment={handlePayment}
                 handleStatements={handleStatements}
                 handleSearch={handleSearch}
+                handleAddFunds={handleAddFunds}
               />
             </MenuBar>
             <Divider />
@@ -195,7 +202,7 @@ function App() {
         )}
       />
 
-<ProtectedRoute
+      <ProtectedRoute
         exact
         path="/search"
         isLoggedIn={auth}
@@ -209,10 +216,36 @@ function App() {
                 handlePayment={handlePayment}
                 handleStatements={handleStatements}
                 handleSearch={handleSearch}
+                handleAddFunds={handleAddFunds}
               />
             </MenuBar>
             <Divider />
-            <SearchComponent/>
+            <SearchComponent />
+          </React.Fragment>
+        )}
+      />
+
+      <ProtectedRoute
+        exact
+        path="/add-funds"
+        isLoggedIn={auth}
+        component={(props) => (
+          <React.Fragment>
+            <MenuBar>
+              <NavigationDrawer
+                {...props}
+                handleHome={handleHome}
+                handleSignout={handleSignout}
+                handlePayment={handlePayment}
+                handleStatements={handleStatements}
+                handleSearch={handleSearch}
+                handleAddFunds={handleAddFunds}
+              />
+            </MenuBar>
+            <Divider />
+            <div className="Currency">
+              <CurrencyInput placeholder="$0.00" type="text"  />
+            </div>
           </React.Fragment>
         )}
       />

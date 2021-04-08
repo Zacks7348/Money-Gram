@@ -1,0 +1,33 @@
+
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap');
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.Currency {
+    font-family: 'IBM Plex Mono', monospace;
+    height: 100%;
+    background: #3f6c51;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+  }
+
+  .Currency-input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    padding: 8px 15px;
+    border: 0;
+    border-radius: 4px;
+    color: #333;
+    margin: 3vw;
+  }
+
+  .Small-header {
+      margin-bottom: 30px;
+  }

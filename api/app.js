@@ -9,6 +9,7 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var paymentRouter = require('./routes/payment');
 var statementsRouter = require('./routes/statements');
+var searchRouter = require('./routes/search');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/payment', paymentRouter);
 app.use('/statements', statementsRouter);
+app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

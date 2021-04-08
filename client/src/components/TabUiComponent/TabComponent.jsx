@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import PublicIcon from '@material-ui/icons/Public';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 
@@ -54,12 +53,6 @@ export default function Tabs(props) {
                         variant="contained"
                         startIcon={<PeopleOutlineIcon />}
                     >FRIENDS</Button>
-                    <Button
-                        onClick={() => { props.active_tab([false, false, true]) }}
-                        color={props.selected === "profile" ? "primary" : "secondary"}
-                        variant="contained"
-                        startIcon={<AccountCircleIcon />}
-                    >PROFILE</Button>
                 </ButtonGroup>
             </ThemeProvider>
         </div>

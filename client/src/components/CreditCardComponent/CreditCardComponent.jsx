@@ -11,19 +11,20 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 
-// Style Components
-import { creditCardStyle } from './CreditCardComponentStyle';
-
 // Recoil
-import {useRecoilValue} from 'recoil';
-import {responseUserIDState} from '../../Store/Atoms'
+import { useRecoilValue } from 'recoil';
+import { responseUserIDState } from '../../Store/Atoms'
 
 // CSS
 import "react-credit-cards/es/styles-compiled.css";
 
+// Style Components
+import { creditCardStyle } from './CreditCardComponentStyle';
+
+
 const useStyles = makeStyles((theme) => (creditCardStyle(theme)));
 
-const CreditCard = () => {
+const CreditCard = ({ simple, card_data }) => {
 
     const classes = useStyles();
     const history = useHistory();
@@ -34,7 +35,7 @@ const CreditCard = () => {
         name: "",
         number: ""
     });
-
+    
     const responseUserID = useRecoilValue(responseUserIDState);
 
     const handleInputChange = (e) => {
@@ -87,17 +88,17 @@ const CreditCard = () => {
         } else {
 
             try {
-                const response =  await axios.post(`http://localhost:4000/payment`, {
-                    card_number: data.number, 
-                    name_on_card: data.name, 
+                const response = await axios.post(`http://localhost:4000/payment`, {
+                    card_number: data.number,
+                    name_on_card: data.name,
                     cvc: data.cvc,
-                    exp_date: data.expiry, 
+                    exp_date: data.expiry,
                     account_ID: responseUserID
-                }).catch(error => { 
+                }).catch(error => {
                     console.log("Error fetching data");
                 });
 
-                if(response.data.status === 'success'){
+                if (response.data.status === 'success') {
                     alert("Payment added succesfully");
                     history.push('/home');
                 }
@@ -109,85 +110,106 @@ const CreditCard = () => {
 
     }
 
-    return (
-        <Container component="main" maxWidth="sm">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <form className={classes.form} noValidate>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={12}>
-                            <Cards
-                                cvc={data.cvc}
-                                expiry={data.expiry}
-                                focus={data.focus}
-                                name={data.name}
-                                number={data.number}
-                            />
+    if (simple && card_data) {
+        return (
+            <Container component="main" maxWidth="sm">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <form className={classes.form} noValidate>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={12}>
+                                <Cards
+                                    cvc={card_data.cvc}
+                                    expiry={card_data.expiry}
+                                    focus={card_data.focus}
+                                    name={card_data.name}
+                                    number={card_data.number}
+                                />
+                            </Grid>
                         </Grid>
+                    </form>
+                </div>
+            </Container>
+        );
+    } else {
+        return (
+            <Container component="main" maxWidth="sm">
+                <CssBaseline />
+                <div className={classes.paper}>
+                    <form className={classes.form} noValidate>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={12}>
+                                <Cards
+                                    cvc={data.cvc}
+                                    expiry={data.expiry}
+                                    name={data.name}
+                                    number={data.number}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    type="text"
+                                    name="name"
+                                    placeholder="Your Name"
+                                    onChange={handleInputChange}
+                                />
+                            </Grid>
 
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                type="text"
-                                name="name"
-                                placeholder="Your Name"
-                                onChange={handleInputChange}
-                            />
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    className={classes.input}
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    type="number"
+                                    name="number"
+                                    placeholder="Card Number"
+                                    onChange={handleInputChange}
+                                    inputProps={{ maxLength: 16 }}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    className={classes.input}
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    type="number"
+                                    name="cvc"
+                                    placeholder="CVC"
+                                    onChange={handleInputChange}
+                                    inputProps={{ maxLength: 3 }}
+                                />
+                            </Grid>
+
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="expiry"
+                                    placeholder="Expire Date"
+                                    onChange={handleInputChange}
+                                    inputProps={{ maxLength: 5 }}
+                                />
+                            </Grid>
+
+                            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={e => handleSignUp(e)}>
+                                Submit Card Information
+                             </Button>
+
                         </Grid>
+                    </form>
+                </div>
+            </Container>
 
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                className={classes.input}
-                                variant="outlined"
-                                required
-                                fullWidth
-                                type="number"
-                                name="number"
-                                placeholder="Card Number"
-                                onChange={handleInputChange}
-                                inputProps={{ maxLength: 16 }}
-                            />
-                        </Grid>
+        );
+    }
 
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                className={classes.input}
-                                variant="outlined"
-                                required
-                                fullWidth
-                                type="number"
-                                name="cvc"
-                                placeholder="CVC"
-                                onChange={handleInputChange}
-                                inputProps={{ maxLength: 3 }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="expiry"
-                                placeholder="Expire Date"
-                                onChange={handleInputChange}
-                                inputProps={{ maxLength: 5 }}
-                            />
-                        </Grid>
-
-                        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit} onClick={e => handleSignUp(e)}>
-                            Submit Card Information
-                         </Button>
-
-                    </Grid>
-                </form>
-            </div>
-
-        </Container>
-
-    );
 };
 
 export default CreditCard;

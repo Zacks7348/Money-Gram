@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import moment from "moment"
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -39,6 +40,7 @@ export default function StatementsTable() {
         }
     }, [setData, responseUserID]);
 
+    
 
 
     return (
@@ -60,7 +62,7 @@ export default function StatementsTable() {
                             return (
                                 <TableRow key={Math.random().toString(36).substr(2, 9)} >
                                     <TableCell>{statement.transaction_id}</TableCell>
-                                    <TableCell align="right">{statement.date}</TableCell>
+                                    <TableCell align="right">{moment(statement.date).format("MMM Do YYYY")}</TableCell>
                                     <TableCell align="right">{statement.reciever_username}</TableCell>
                                     <TableCell align="right">{"$" + statement.amount}</TableCell>
                                     <TableCell align="right">{statement.memo === null ? "N/A" : statement.memo}</TableCell>
