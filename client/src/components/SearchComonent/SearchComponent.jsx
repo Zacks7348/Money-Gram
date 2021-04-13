@@ -21,6 +21,7 @@ export default function SearchBar() {
 
     const [data, setData] = useState([{}]);
     const [searched, setSearched] = useState([{}]);
+    const [searchValue, setSearchValue] = useState('');
 
 
     const fetchUsers = () => {
@@ -29,13 +30,21 @@ export default function SearchBar() {
         })
     }
 
-    const handleSearch = (event) => {
-        event.preventDefault();
-        setSearched(data.filter((user) => filterUsers(user, event)));
+    const handleSearch = (e) => {
+        setSearchValue((e.target.value).toLowerCase());
+        setSearched(data.filter((user) => filterUsers(user, e.target.value.toLowerCase())));
     }
 
-    const filterUsers = (user, event) => {
-        return user.username.includes(event.target.value) || user.email.includes(event.target.value) || user.phone.includes(event.target.value)
+    const filterUsers = (user, value) => {
+        if (value !== "") {
+            if(value[0] === '@') {
+                return null
+            } else {
+                return user.username.toLowerCase().match(value)
+            }
+        } else { 
+            return null 
+        }
     }
 
     useEffect(() => {
@@ -60,7 +69,8 @@ export default function SearchBar() {
                         shrink: true,
                     }}
                     variant="outlined"
-                    onChange={(event) => { handleSearch(event) }}
+                    value ={searchValue}
+                    onChange = {(e) => { handleSearch(e) }}
                 />
             </div>
 

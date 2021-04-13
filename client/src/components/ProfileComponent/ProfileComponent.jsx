@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     deepGreen: {
         color: theme.palette.getContrastText(green[500]),
         backgroundColor: green[500],
-      },
+    },
     large: {
         width: 80,
         height: 80,
@@ -41,22 +41,25 @@ export default function Profile() {
     const classes = useStyles();
     const responseUserID = useRecoilValue(responseUserIDState);
 
-    const [data, setData] = useState([{}]);
+    const [data, setData] = useState([]);
 
-    const fetchProfile = () => {
-        axios.post(`http://localhost:4000/users/profile`, {
-            account_ID: responseUserID
-        }).then(({ data }) => {
-            setData(data.user[0]);
-        })
-    }
 
     useEffect(() => {
+
+        const fetchProfile = () => {
+            axios.post(`http://localhost:4000/users/profile`, {
+                account_ID: responseUserID
+            }).then(({ data }) => {
+                setData(data.user[0]);
+            })
+        }
+        
         fetchProfile();
+
         return () => {
             setData({});
         }
-    }, [])
+    }, [responseUserID])
 
     return (
         <Card className={classes.root}>
@@ -65,12 +68,16 @@ export default function Profile() {
                 title={<Typography className={classes.title} color="textPrimary"><strong className={classes.green}>HI!</strong> {data.fname}</Typography>}
                 subheader={"@" + data.username}
             /> : <CardHeader
-                avatar={<Avatar alt={data.fname} className={[classes.large, classes.deepGreen]}> {data.fname[0] + data.lname[0]} </Avatar> }
+                avatar={<Avatar alt={data.fname} className={[classes.large, classes.deepGreen].join(" ")}> {data.fname[0] + data.lname[0]} </Avatar>}
                 title={<Typography className={classes.title} color="textPrimary"><strong className={classes.green}>HI!</strong> {data.fname}</Typography>}
                 subheader={"@" + data.username}
             />}
+
             <CardContent>
-                <Typography variant="h5" component="h2">$ {data.balance} <Typography className={classes.pos} color="textSecondary">Avaliable Balance</Typography></Typography>
+                {data.balance !== null ? <Typography variant="h5" component="h2">${data.balance} <Typography className={classes.pos} color="textSecondary">Avaliable Balance</Typography></Typography> :
+                    <Typography variant="h5" component="h2">$0.00 <Typography className={classes.pos} color="textSecondary">Avaliable Balance</Typography></Typography>
+                }
+
             </CardContent>
         </Card>
     );

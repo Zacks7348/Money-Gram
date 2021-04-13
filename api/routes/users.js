@@ -53,8 +53,6 @@ router.post('/profile', async(req, res, next) => {
         if (account_ID !== "") {
             const user = await pool.query("SELECT * FROM moneygram_account WHERE account_ID = ($1)", [account_ID]);
 
-            console.log(user);
-
             if (user) {
                 res.send({
                     user: user.rows

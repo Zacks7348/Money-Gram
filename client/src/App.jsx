@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/Protected/ProtectedRouteComponent";
 import StatementsTable from "./components/StatementsComponent/StatementsComponent";
 import SearchComponent from "./components/SearchComonent/SearchComponent";
 import CurrencyInput from './components/CurrencyInputComponent/CurrencyInput';
+import DisplayUsers from './components/DisplayUserComponents/DisplayUsersComponent'
 
 // Recoil State
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -31,9 +32,10 @@ function App() {
 
   // ACTIVE STATE USE
   const [activeTab, setActiveTab] = useRecoilState(activeTabState);
+  const setResponseUserID = useSetRecoilState(responseUserIDState);
   const [auth, setAuth] = useRecoilState(authState);
   const setResponseUserName = useSetRecoilState(responseUserNameState);
-  const setResponseUserID = useSetRecoilState(responseUserIDState);
+
 
   let history = useHistory();
 
@@ -57,7 +59,7 @@ function App() {
   const handleActiveTab = (tabs) => {
     let isPublic = tabs[0];
     let isFriends = tabs[1];
-    
+
     if (isPublic && !isFriends) {
       setActiveTab("public");
     } else if (!isPublic && isFriends) {
@@ -152,6 +154,11 @@ function App() {
               active_tab={handleActiveTab}
               selected={activeTab}
             />
+
+            <div style={{ maxHeight: 800, overflow: 'auto' }}>
+              <DisplayUsers activeTab={activeTab}/>
+            </div>
+
           </React.Fragment>
         )}
       />
@@ -244,7 +251,7 @@ function App() {
             </MenuBar>
             <Divider />
             <div className="Currency">
-              <CurrencyInput placeholder="$0.00" type="text"  />
+              <CurrencyInput placeholder="$0.00" type="text" />
             </div>
           </React.Fragment>
         )}

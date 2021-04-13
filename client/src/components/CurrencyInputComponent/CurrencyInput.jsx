@@ -58,13 +58,6 @@ const CurrencyInput = ({ maskOptions, ...inputProps }) => {
 
   const classes = useStyles();
 
-  const fetchCardInfo = () => {
-    axios.post(`http://localhost:4000/payment/info`, {
-      account_ID: responseUserID
-    }).then(({ data }) => {
-      setData(data);
-    })
-  }
 
   const handleAddFunds = (event) => {
     event.preventDefault();
@@ -83,11 +76,21 @@ const CurrencyInput = ({ maskOptions, ...inputProps }) => {
   }
 
   useEffect(() => {
+
+    const fetchCardInfo = () => {
+      axios.post(`http://localhost:4000/payment/info`, {
+        account_ID: responseUserID
+      }).then(({ data }) => {
+        setData(data);
+      })
+    }
+    
     fetchCardInfo();
+
     return () => {
       setData({});
     }
-  }, [])
+  }, [responseUserID])
 
 
   return (
